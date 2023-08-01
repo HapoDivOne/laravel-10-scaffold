@@ -7,9 +7,9 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## Laravel 8 Scaffold
+## Laravel 10 Scaffold
 
-Quickly set up skeleton for your Laravel 9.x app
+Quickly set up skeleton for your Laravel 10.x app
 
 ## Features:
 - Auto check coding convention using sonarqube with github action
