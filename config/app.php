@@ -161,6 +161,11 @@ return [
          */
 
         /*
+         * Repositories Service Providers
+         */
+        App\Providers\UserServiceProvider::class,
+
+        /*
          * Application Service Providers...
          */
         App\Providers\AppServiceProvider::class,

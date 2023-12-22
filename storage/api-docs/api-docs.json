@@ -1,0 +1,150 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Laravel 10 Api",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://127.0.0.1:8000/api/v1",
+            "description": "API Server"
+        }
+    ],
+    "paths": {
+        "/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "User Login",
+                "operationId": "authLogin",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/accept--language"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        },
+                        "application/json": {
+                            "schema": {}
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/logout": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "User Logout",
+                "operationId": "authLogout",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/accept--language"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "parameters": {
+            "accept--language": {
+                "name": "localization",
+                "in": "header",
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "asset--limit": {
+                "name": "limit",
+                "in": "query",
+                "description": "Number of item is get up at each page",
+                "schema": {
+                    "type": "integer",
+                    "default": 12
+                }
+            },
+            "general--page": {
+                "name": "page",
+                "in": "query",
+                "description": "The current page for the result set, defaults to *1*",
+                "schema": {
+                    "type": "integer",
+                    "default": 1
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "name": "bearerAuth",
+                "in": "header",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    }
+}
