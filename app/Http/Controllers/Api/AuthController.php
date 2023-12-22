@@ -70,7 +70,7 @@ class AuthController extends Controller
     public function login(ApiLoginRequest $request)
     {
         $response = $this->authService->login($request->validated());
-        return $this->getJsonResponse($response['status'], 200, $response['message'], $response['data'] ?? []);
+        return $this->getJsonResponse($response['status'], $response['code'], $response['message'], $response['data'] ?? []);
     }
 
     /**
@@ -113,6 +113,6 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         $response = $this->authService->logout($request->user());
-        return $this->getJsonResponse($response['status'], 200, $response['message']);
+        return $this->getJsonResponse($response['status'], $response['code'], $response['message']);
     }
 }
