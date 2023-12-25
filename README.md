@@ -28,6 +28,11 @@ Quickly set up skeleton for your Laravel 10.x app
 9. Browse app: `localhost:8000`
 10. Login using test account: Email: `test@haposoft.com` / Password: `Abc@123456`
 
+## Swagger
+1. Đảm bảo đã chạy composer
+2. Xóa cache: `php artisan cache:clear` & `php artisan config:clear`
+3. Run: `http://localhost:8000/api/documentation`
+
 ## Technical support:
 - [Facebook Group](https://www.facebook.com/laravelvn/)
 
