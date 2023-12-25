@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-class ResponseStatus
+enum ResponseStatus
 {
     const SUCCESS = 'Success';
     const ERROR = 'Error';
