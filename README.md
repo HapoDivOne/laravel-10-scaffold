@@ -31,7 +31,7 @@ Quickly set up skeleton for your Laravel 10.x app
 ## Swagger
 1. Đảm bảo đã chạy composer
 2. Xóa cache: `php artisan cache:clear` & `php artisan config:clear`
-3. Run: `http://127.0.0.1:8000/api/documentation`
+3. Run: `http://localhost:8000/api/documentation`
 
 ## Technical support:
 - [Facebook Group](https://www.facebook.com/laravelvn/)
