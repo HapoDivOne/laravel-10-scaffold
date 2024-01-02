@@ -37,4 +37,18 @@ class AuthService extends BaseService
         $this->removeToken($user);
         return $this->getServiceResponse(ResponseStatus::SUCCESS, Response::HTTP_OK, 'Success');
     }
+
+    public function updatePassword(int $userId, string $newPassword, string $confirmPassword)
+    {
+        $user = User::findOrFail($userId);
+
+        if ($newPassword !== $confirmPassword) {
+            return false;
+        }
+
+        $user->password = $newPassword;
+        $user->save();
+
+        return $this->getServiceResponse(ResponseStatus::SUCCESS, Response::HTTP_OK, 'Success');
+    }
 }

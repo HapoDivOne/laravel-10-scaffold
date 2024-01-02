@@ -22,4 +22,18 @@ class UserRepository extends EloquentRepository implements UserRepositoryInterfa
     {
         return $this->getFirstBy('email', $email);
     }
+
+    public function updatePassword(int $userId, string $newPassword, string $confirmPassword): bool
+    {
+        $user = User::findOrFail($userId);
+
+        if ($newPassword !== $confirmPassword) {
+            return false;
+        }
+
+        $user->password = $newPassword;
+        $user->save();
+
+        return true;
+    }
 }
