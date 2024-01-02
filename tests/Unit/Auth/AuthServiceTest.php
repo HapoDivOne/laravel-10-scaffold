@@ -9,33 +9,36 @@ use App\Services\Api\AuthService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Response;
+use Laravel\Sanctum\Sanctum;
 use Mockery;
-use PHPUnit\Framework\TestCase;
-use stdClass;
+use Tests\TestCase;
 
 class AuthServiceTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_login_with_correct_credentials()
+    protected $userRepository;
+    protected $user;
+    protected $authService;
+
+    public function setUp(): void
     {
-        // Setup
-        $userRepository = Mockery::mock(UserRepository::class);
-        $user = Mockery::mock(User::class);
-        $stdClass = new stdClass();
-        $stdClass->plainTextToken = 'token';
-        $user->shouldReceive('createToken')->andReturn($stdClass);
-        $user->shouldReceive('getAttribute')->andReturn('token');
-        $userRepository->shouldReceive('getFirstBy')
-            ->with('email', 'user@gmail.com')->andReturn($user);
-        Hash::shouldReceive('check')->with('valid_password', Mockery::any())->andReturn(true);
+        parent::setUp();
+        $this->userRepository = Mockery::mock(UserRepository::class);
+        $this->authService = new AuthService($this->userRepository);
+        $this->user = User::factory()->create([
+            'email' => 'user@gmail.com',
+            'password' => 'valid_password',
+        ]);
+    }
 
-        $authService = new AuthService($userRepository);
+    public function test_login_valid()
+    {
+        $this->userRepository->shouldReceive('getFirstBy')
+            ->with('email', 'user@gmail.com')->andReturn($this->user);
 
-        // Act
-        $response = $authService->login(['email' => 'user@gmail.com', 'password' => 'valid_password']);
+        $response = $this->authService->login(['email' => 'user@gmail.com', 'password' => 'valid_password']);
 
-        // Assert
         $this->assertEquals(ResponseStatus::SUCCESS, $response['status']);
         $this->assertEquals(Response::HTTP_OK, $response['code']);
         $this->assertEquals('Success', $response['message']);
@@ -43,17 +46,26 @@ class AuthServiceTest extends TestCase
         $this->assertArrayHasKey('token_type', $response['data']);
     }
 
-    public function test_logout_with_correct_credentials()
+    public function test_login_invalid_password()
     {
-        //setup
-        $authServiceMock = Mockery::mock(AuthService::class);
-        $userRepository = Mockery::mock(UserRepository::class);
-        $userRepository->shouldReceive('getFirstBy')
-            ->with('email', 'user@gmail.com')->andReturn();
-        $authServiceMock->shouldReceive('removeToken')->andReturn(true);
+        $this->userRepository->shouldReceive('getFirstBy')
+            ->with('email', 'user@gmail.com')->andReturn($this->user);
+        Hash::shouldReceive('check')->with('invalid_password', Mockery::any())->andReturn(false);
 
-        $authService = new AuthService($userRepository);
-//        $response = $authService->logout(new User());
+        $response = $this->authService->login(['email' => 'user@gmail.com', 'password' => 'invalid_password']);
+
+        $this->assertEquals(ResponseStatus::ERROR, $response['status']);
+        $this->assertEquals(Response::HTTP_UNAUTHORIZED, $response['code']);
+        $this->assertEquals('Unauthorized', $response['message']);
     }
 
+    public function test_logout_valid()
+    {
+        Sanctum::actingAs($this->user);
+        $response = $this->authService->logout($this->user);
+
+        $this->assertEquals(ResponseStatus::SUCCESS, $response['status']);
+        $this->assertEquals(Response::HTTP_OK, $response['code']);
+        $this->assertEquals('Success', $response['message']);
+    }
 }
