@@ -108,13 +108,13 @@
                 ]
             }
         },
-        "/change-password": {
+        "/reset-password": {
             "post": {
                 "tags": [
                     "Auth"
                 ],
-                "summary": "Change password",
-                "operationId": "changePassword",
+                "summary": "Reset password",
+                "operationId": "resetPassword",
                 "parameters": [
                     {
                         "$ref": "#/components/parameters/accept--language"

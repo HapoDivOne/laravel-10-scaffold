@@ -119,10 +119,10 @@ class AuthController extends Controller
 
     /**
      * @OA\Post(
-     * path="/change-password",
-     * operationId="changePassword",
+     * path="/reset-password",
+     * operationId="resetPassword",
      * tags={"Auth"},
-     * summary="Change password",
+     * summary="Reset password",
      * security={{"bearerAuth":{}}},
      *
      * @OA\Parameter(
@@ -163,7 +163,7 @@ class AuthController extends Controller
      *  )
      * )
      */
-    public function changePassword(ChangePasswordRequest $request)
+    public function resetPassword(ChangePasswordRequest $request)
     {
         $userId = $request->user()->id;
         $newPassword = $request->input('new_password');
