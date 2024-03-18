@@ -9,7 +9,9 @@
 
 ## Laravel 10 Scaffold
 
-Quickly set up skeleton for your Laravel 10.x app
+Quickly set up skeleton for your Laravel 10.x app with env:
+- php 8.2.16
+- node v20.11.1 (LTS)
 
 ## Features:
 - Auto check coding convention using sonarqube with github action
@@ -29,8 +31,12 @@ Quickly set up skeleton for your Laravel 10.x app
 10. Login using test account: Email: `test@haposoft.com` / Password: `Abc@123456`
 
 ## Swagger
-1. Đảm bảo đã chạy composer
-2. Xóa cache: `php artisan cache:clear` & `php artisan config:clear`
+1.  Generate Swagger document
+
+```
+$ php artisan l5-swagger:generate
+```
+2. Delete cache: `php artisan cache:clear` & `php artisan config:clear`
 3. Run: `http://localhost:8000/api/documentation`
 
 ## Technical support:
