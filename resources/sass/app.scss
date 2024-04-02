@@ -1,0 +1,12 @@
+// Fonts
+@import url("https://fonts.bunny.net/css?family=Nunito");
+
+// Variables
+@import "variables";
+
+.custom-pages {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 10px;
+  gap: 10px;
+}
